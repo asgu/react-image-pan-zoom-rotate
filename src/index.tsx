@@ -1,15 +1,16 @@
 import * as React from 'react'
 import ReactPanZoom from './react-pan-zoom-rotate'
 
-// box-shadow: 0px 0px 5px 1px #0c0c0c;
+type TButtons = "pan" | "zoom" | "reset" | "rotate" | "flip"
 
 type PanViewerProps = {
   image: string
   alt?: string
   ref?: any
+  buttons?: TButtons[]
 }
 
-const PanViewer = ({ image, alt, ref }: PanViewerProps) => {
+const PanViewer = ({ image, alt, ref, buttons = ["pan", "zoom", "reset"] }: PanViewerProps) => {
   const [dx, setDx] = React.useState(0)
   const [dy, setDy] = React.useState(0)
   const [zoom, setZoom] = React.useState(1)
@@ -64,7 +65,7 @@ const PanViewer = ({ image, alt, ref }: PanViewerProps) => {
           boxShadow: '0px 2px 6px rgba(53, 67, 93, 0.32)'
         }}
       >
-        <div
+        {buttons.indexOf("zoom") >= 0 && <div
           onClick={zoomIn}
           style={{
             textAlign: 'center',
@@ -100,8 +101,8 @@ const PanViewer = ({ image, alt, ref }: PanViewerProps) => {
               strokeLinecap='round'
             />
           </svg>
-        </div>
-        <div
+        </div>}
+        {buttons.indexOf("zoom") >= 0 && <div
           onClick={zoomOut}
           style={{
             textAlign: 'center',
@@ -132,7 +133,8 @@ const PanViewer = ({ image, alt, ref }: PanViewerProps) => {
             />
           </svg>
         </div>
-        <div
+        }
+        {buttons.indexOf("rotate") >= 0 && <div
           onClick={rotateLeft}
           style={{
             textAlign: 'center',
@@ -170,8 +172,8 @@ const PanViewer = ({ image, alt, ref }: PanViewerProps) => {
               strokeLinejoin='round'
             />
           </svg>
-        </div>
-        <div
+        </div>}
+        {buttons.indexOf("flip") >= 0 && <div
           onClick={flipImage}
           style={{
             textAlign: 'center',
@@ -209,8 +211,8 @@ const PanViewer = ({ image, alt, ref }: PanViewerProps) => {
               points='11.385,1.763 11.385,18.799 20.562,18.799 '
             />
           </svg>
-        </div>
-        <div
+        </div>}
+        {buttons.indexOf("reset") >= 0 &&<div
           onClick={resetAll}
           style={{
             textAlign: 'center',
@@ -238,7 +240,7 @@ const PanViewer = ({ image, alt, ref }: PanViewerProps) => {
           >
             <path d='M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7' />
           </svg>
-        </div>
+        </div>}
       </div>
       <ReactPanZoom
         style={{
